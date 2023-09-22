@@ -1,0 +1,57 @@
+<html>
+    <title>Wind Correction Calculator</title>
+    <head>
+        <h1>WIND CORRECTION CALCULATOR</h1>
+        <h2>Made by Ronak Patel</h2>
+    </head>
+
+    <body>
+        <div>
+            <input id="track" name="track" placeholder="Track Bearing"/>
+            <input id="airspeed" name="airspeed" placeholder="True Airspeed"/>
+            <input id="wind" name="wind" placeholder="Wind Speed"/>
+            <input id="windDir" name="windDir" placeholder="Wind Direction"/>
+        </div>
+        <br/>
+        <button onclick="submit()">Calculate</button>
+        <br/>
+        <br/>
+        <br/>
+        <div id="answers"></div>
+
+        <script>
+            
+            let track, airspeed, wind, windDir;
+
+            function submit() {
+                var heading, groundspeed;
+                let a, b, c;
+                
+                track = Number(document.getElementById("track").value);
+                airspeed = Number(document.getElementById("airspeed").value);
+                wind = Number(document.getElementById("wind").value);
+                windDir = Number(document.getElementById("windDir").value);
+                
+                function toRadians(x) {
+                    return x/180*Math.PI;
+                }
+
+                function toDegrees(x) {
+                    return x/Math.PI*180;
+                }
+
+                heading = track + toDegrees(Math.atan(wind*Math.sin(toRadians(windDir-track))/airspeed));
+                a = 1;
+                b = -2*airspeed*Math.cos(toRadians(Math.abs(track-heading)));
+                console.log(b);
+                c = airspeed**2 - wind**2;
+                console.log(c);
+                groundspeed = ((-b + Math.sqrt(b**2-4*a*c))/2*a) > 0 ? ((-b + Math.sqrt(b**2-4*a*c))/2*a) : ((-b - Math.sqrt(b**2-4*a*c))/2*a);
+
+                document.getElementById("answers").innerHTML = "Your corrected heading is: " + heading + " degrees and your ground speed is: " + groundspeed;
+                
+                
+            }
+        </script>
+    </body>
+</html>
