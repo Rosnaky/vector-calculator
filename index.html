@@ -10,7 +10,7 @@
             <input id="track" name="track" placeholder="Track Bearing"/>
             <input id="airspeed" name="airspeed" placeholder="True Airspeed"/>
             <input id="wind" name="wind" placeholder="Wind Speed"/>
-            <input id="windDir" name="windDir" placeholder="Wind Direction"/>
+            <input id="windDir" name="windDir" placeholder="Wind Direction (Where the winds are coming from"/>
         </div>
         <br/>
         <button onclick="submit()">Calculate</button>
@@ -42,10 +42,8 @@
 
                 heading = track + toDegrees(Math.atan(wind*Math.sin(toRadians(windDir-track))/airspeed));
                 a = 1;
-                b = -2*airspeed*Math.cos(toRadians(Math.abs(track-heading)));
-                console.log(b);
+                b = -2*airspeed*Math.cos(toRadians(180-Math.abs(track-heading)));
                 c = airspeed**2 - wind**2;
-                console.log(c);
                 groundspeed = ((-b + Math.sqrt(b**2-4*a*c))/2*a) > 0 ? ((-b + Math.sqrt(b**2-4*a*c))/2*a) : ((-b - Math.sqrt(b**2-4*a*c))/2*a);
 
                 document.getElementById("answers").innerHTML = "Your corrected heading is: " + heading + " degrees and your ground speed is: " + groundspeed;
